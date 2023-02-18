@@ -1,13 +1,17 @@
 package com.example.ubiquitiassignment.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import com.example.ubiquitiassignment.R
+import com.example.ubiquitiassignment.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -16,19 +20,78 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val activityMainViewModel: MainViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
+    private val goodConditionAdapter by lazy { GoodConditionAdapter() }
+    private val badConditionAdapter by lazy { BadConditionAdapter() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        
+        initView()
+        initViewModel()
+    }
+
+    private fun initView() {
+        binding.toolBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search -> {
+                    // Handle search icon press
+                    true
+                }
+                else -> false
+            }
+        }
+
+        binding.horizontalRecyclerView.apply {
+            setHasFixedSize(true)
+            adapter = goodConditionAdapter
+        }
+        binding.verticalRecyclerView.apply {
+            setHasFixedSize(true)
+            adapter = badConditionAdapter
+        }
+    }
+
+    private fun initViewModel() {
+        activityMainViewModel.apply {
+            goodAirPollutions.observe(viewLifecycleOwner) {
+                it.result(
+                    onLoading = { isLoading, _ ->
+                        binding.loading.isVisible = isLoading
+                    }, onSuccess = { list ->
+                        Timber.d("goodAirPollutions: $list")
+                        goodConditionAdapter.submitList(list)
+                    }, onError = { _, errorMsg ->
+                        Timber.e("goodAirPollutions: onError=$errorMsg")
+                        Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+            
+            badPollutions.observe(viewLifecycleOwner) {
+                badConditionAdapter.submitList(it)
+            }
+
+            fetchAirPollutions() 
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
