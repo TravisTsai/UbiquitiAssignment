@@ -59,6 +59,10 @@ class MainFragment : Fragment() {
             }
         }
 
+        binding.swipeContainer.setOnRefreshListener {
+            activityMainViewModel.fetchAirPollutions()
+        }
+
         binding.horizontalRecyclerView.apply {
             setHasFixedSize(true)
             adapter = goodConditionAdapter
@@ -74,7 +78,7 @@ class MainFragment : Fragment() {
             goodAirPollutions.observe(viewLifecycleOwner) {
                 it.result(
                     onLoading = { isLoading, _ ->
-                        binding.loading.isVisible = isLoading
+                        binding.swipeContainer.isRefreshing = isLoading
                     }, onSuccess = { list ->
                         Timber.d("goodAirPollutions: $list")
                         goodConditionAdapter.submitList(list)
