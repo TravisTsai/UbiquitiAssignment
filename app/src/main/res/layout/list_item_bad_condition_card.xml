@@ -27,6 +27,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/black"
+        android:layout_marginStart="@dimen/common_padding_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/siteId"
         tools:text="基隆" />
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/primary_text"
         android:layout_marginBottom="@dimen/cardview_text_margin"
+        android:layout_marginStart="@dimen/common_padding_horizontal"
         app:layout_constraintTop_toBottomOf="@id/siteName"
         app:layout_constraintStart_toEndOf="@id/siteId"
         tools:text="基隆市" />

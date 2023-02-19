@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     companion object {
-        private const val THRESHOLD: Int = 18
+        private const val THRESHOLD: Int = 10
     }
 
     private val _goodAirPollutions = MutableLiveData<Resource<List<AirPollutionVO>>>()
@@ -27,7 +27,8 @@ class MainViewModel @Inject constructor(
     private val _badPollutions = MutableLiveData<List<AirPollutionVO>>()
     val badPollutions: LiveData<List<AirPollutionVO>> = _badPollutions
 
-    private var airPollutionList: List<AirPollutionVO> = emptyList()
+    var airPollutionList: List<AirPollutionVO> = emptyList()
+        private set
 
     fun fetchAirPollutions() {
         _goodAirPollutions.value = Resource.Loading()

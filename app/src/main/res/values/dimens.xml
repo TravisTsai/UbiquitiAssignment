@@ -5,11 +5,13 @@
     <dimen name="common_padding_vertical">15dp</dimen>
     <dimen name="common_padding_horizontal">10dp</dimen>
     <dimen name="horizontal_recycler_view_height">80dp</dimen>
-
     <dimen name="cardview_min_width">100dp</dimen>
     <dimen name="cardview_padding">10dp</dimen>
     <dimen name="cardview_text_margin">5dp</dimen>
     <dimen name="list_item_bad_condition_site_id_size">50dp</dimen>
     <dimen name="list_item_bad_condition_site_id_text_size">36sp</dimen>
+
+    <dimen name="search_page_text_size">18sp</dimen>
+    <dimen name="search_page_back_icon_layout_size">48dp</dimen>
 
 </resources>

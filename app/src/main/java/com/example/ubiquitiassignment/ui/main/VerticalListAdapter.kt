@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ubiquitiassignment.R
 import com.example.ubiquitiassignment.databinding.ListItemBadConditionCardBinding
 import com.example.ubiquitiassignment.entity.AirPollutionVO
-import timber.log.Timber
 
-class BadConditionAdapter : ListAdapter<AirPollutionVO, RecyclerView.ViewHolder>(DiffCallback) {
+class VerticalListAdapter : ListAdapter<AirPollutionVO, RecyclerView.ViewHolder>(DiffCallback) {
 
     inner class ItemViewHolder(
         private val binding: ListItemBadConditionCardBinding

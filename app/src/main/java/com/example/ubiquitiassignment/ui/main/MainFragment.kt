@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import com.example.ubiquitiassignment.R
 import com.example.ubiquitiassignment.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val goodConditionAdapter by lazy { GoodConditionAdapter() }
-    private val badConditionAdapter by lazy { BadConditionAdapter() }
+    private val badConditionAdapter by lazy { VerticalListAdapter() }
 
 
     override fun onCreateView(
@@ -48,7 +49,10 @@ class MainFragment : Fragment() {
         binding.toolBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search -> {
-                    // Handle search icon press
+                    parentFragmentManager.commit(allowStateLoss = true) {
+                        add(R.id.container, SearchFragment.newInstance())
+                        addToBackStack(null)
+                    }
                     true
                 }
                 else -> false
