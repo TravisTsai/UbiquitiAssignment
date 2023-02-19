@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.example.ubiquitiassignment.R
@@ -89,7 +88,7 @@ class MainFragment : Fragment() {
                 )
             }
             
-            badPollutions.observe(viewLifecycleOwner) {
+            badAirPollutions.observe(viewLifecycleOwner) {
                 badConditionAdapter.submitList(it)
             }
 

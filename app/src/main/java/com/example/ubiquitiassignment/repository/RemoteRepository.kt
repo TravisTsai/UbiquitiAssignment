@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 class RemoteRepository(
     private val apiService: ApiService,
-    private val ioDispatcher: CoroutineDispatcher) {
+    private val ioDispatcher: CoroutineDispatcher
+) {
 
     @Inject
     constructor(apiService: ApiService) : this(apiService, Dispatchers.IO)

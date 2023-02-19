@@ -24,8 +24,8 @@ class MainViewModel @Inject constructor(
     private val _goodAirPollutions = MutableLiveData<Resource<List<AirPollutionVO>>>()
     val goodAirPollutions: LiveData<Resource<List<AirPollutionVO>>> = _goodAirPollutions
 
-    private val _badPollutions = MutableLiveData<List<AirPollutionVO>>()
-    val badPollutions: LiveData<List<AirPollutionVO>> = _badPollutions
+    private val _badAirPollutions = MutableLiveData<List<AirPollutionVO>>()
+    val badAirPollutions: LiveData<List<AirPollutionVO>> = _badAirPollutions
 
     var airPollutionList: List<AirPollutionVO> = emptyList()
         private set
@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(
                 airPollutionList = remoteRepository.getAirPollutionData()
                 _goodAirPollutions.value =
                     Resource.Success(airPollutionList.filter { it.pm25.toInt() <= THRESHOLD })
-                _badPollutions.value = airPollutionList.filter { it.pm25.toInt() > THRESHOLD }
+                _badAirPollutions.value = airPollutionList.filter { it.pm25.toInt() > THRESHOLD }
             }.onFailure {
                 Timber.e("getAirPollutions: Error=${it.message}")
                 _goodAirPollutions.value = Resource.Error(message = it.message.orEmpty())
